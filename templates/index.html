@@ -2,17 +2,18 @@
 <html>
 <head>
     <title>Bangalore Home Price Prediction</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
 	
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head><body>
+
   {% if username %}
   <div class="main-container">
     <!-- Welcome Message -->
     <div class="user-info">
       <p>Welcome, {{ username }} | <a href="/logout">Logout</a></p>
     </div>
+
 
     <!-- Prediction Form -->
     <form method="POST" action="/predict" class="form">
@@ -301,7 +302,13 @@
     </form>
 
     <div id="uiEstimatedPrice" class="result">
-        <h2>{{ prediction_text if prediction_text else '' }}</h2>
+     <h2>
+  <span class="label-color">Estimated Price:</span>
+  <span class="value-color">
+    {{ prediction_text.split(':')[1] if prediction_text else '' }}
+  </span>
+</h2>
+
     </div>
 	</div>
 	 {% else %}

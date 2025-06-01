@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <div class="auth-wrapper">
   <title>Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <form method="POST" action="/login" class="form">
@@ -13,5 +14,6 @@
     <p>Don't have an account? <a href="/signup">Sign up</a></p>
     {% if error %}<p style="color: red;">{{ error }}</p>{% endif %}
   </form>
+</div>
 </body>
 </html>
