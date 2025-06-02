@@ -154,12 +154,12 @@ button:hover {
   width: 100%;
 }
 .label-color {
-  color: #000000;  /* Green or any color you prefer */
+  color: #000000;  
   font-weight: bold;
 }
 
 .value-color {
-  color: #f4f0f0;  /* Red or any color you prefer */
+  color: #f4f0f0;  
   font-weight: bold;
 }
 

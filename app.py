@@ -4,24 +4,19 @@ from pymongo import MongoClient
 import urllib.parse
 import util
 
-# --- MongoDB Setup ---
 username = "bharathvaji57"
-password = urllib.parse.quote_plus("Bharathvaji@123")  # Escape special chars like @
+password = urllib.parse.quote_plus("Bharathvaji@123") 
 uri = f"mongodb+srv://{username}:{password}@cluster0.bsse3s7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 client = MongoClient(uri)
 db = client["user_db"]
-users = db["users"]  # ✅ MongoDB collection
-uri = os.environ.get("MONGO_URI")
+users = db["users"]  
 
-
-# --- Flask Setup ---
 app = Flask(__name__)
 app.secret_key = 'replace_with_secure_random_key'
 
 util.load_saved_artifacts()
 
-# --- Routes ---
 
 @app.route('/')
 def home():
@@ -56,7 +51,6 @@ def signup():
         hashed_pw = generate_password_hash(password)
         users.insert_one({'username': username, 'password': hashed_pw})
 
-        # Debug: Print all users
         print("All users in the DB:")
         for user in users.find():
             print(user)
@@ -92,6 +86,5 @@ def predict():
                                prediction_text=f"Error: {str(e)}",
                                username=session['username'])
 
-# --- Run ---
 if __name__ == "__main__":
     app.run(debug=True)

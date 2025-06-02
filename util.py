@@ -13,7 +13,7 @@ def load_saved_artifacts():
 
     with open("artifacts/columns.json", "r") as f:
         __data_columns = [col.lower() for col in json.load(f)['data_columns']]
-        __locations = __data_columns[3:]  # assuming first 3 are numeric
+        __locations = __data_columns[3:] 
 
     with open("artifacts/banglore_home_prices_model.pickle", "rb") as f:
         __model = pickle.load(f)
@@ -31,6 +31,6 @@ def predict_price(location, sqft, bath, bhk):
     x[2] = bhk
 
     if loc_index >= 0:
-        x[loc_index + 3] = 1  # offset by 3
+        x[loc_index + 3] = 1  
 
     return round(__model.predict([x])[0], 2)
