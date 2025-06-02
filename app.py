@@ -12,6 +12,8 @@ uri = f"mongodb+srv://{username}:{password}@cluster0.bsse3s7.mongodb.net/?retryW
 client = MongoClient(uri)
 db = client["user_db"]
 users = db["users"]  # ✅ MongoDB collection
+uri = os.environ.get("MONGO_URI")
+
 
 # --- Flask Setup ---
 app = Flask(__name__)
