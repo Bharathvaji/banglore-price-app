@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 import urllib.parse
-import server.util
+import util
 
 username = "bharathvaji57"
 password = urllib.parse.quote_plus("Bharathvaji@123") 
@@ -15,7 +15,7 @@ users = db["users"]
 app = Flask(__name__)
 app.secret_key = 'replace_with_secure_random_key'
 
-server.util.load_saved_artifacts()
+util.load_saved_artifacts()
 
 
 @app.route('/')
@@ -75,7 +75,7 @@ def predict():
         bhk = int(request.form['bhk'])
         location = request.form['location']
 
-        price = server.util.predict_price(location, sqft, bath, bhk)
+        price = util.predict_price(location, sqft, bath, bhk)
 
         return render_template('index.html',
                                prediction_text=f"Estimated Price: ₹ {round(price, 2)} Lakhs",
