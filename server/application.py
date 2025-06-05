@@ -5,26 +5,26 @@ import urllib.parse
 import util
 
 username = "bharathvaji57"
-password = urllib.parse.quote_plus("Bharathvaji@123") 
+password = urllib.parse.quote_plus("Bharathvaji@123")
 uri = f"mongodb+srv://{username}:{password}@cluster0.bsse3s7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 client = MongoClient(uri)
 db = client["user_db"]
-users = db["users"]  
+users = db["users"]
 
-app = Flask(__name__)
-app.secret_key = 'replace_with_secure_random_key'
+# ✅ MUST be named exactly this:
+application = Flask(__name__)
+application.secret_key = 'replace_with_secure_random_key'
 
 util.load_saved_artifacts()
 
-
-@app.route('/')
+@application.route('/')
 def home():
     if 'username' in session:
         return render_template('index.html', username=session['username'])
     return redirect(url_for('login'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@application.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -39,7 +39,7 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/signup', methods=['GET', 'POST'])
+@application.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         username = request.form['username']
@@ -51,20 +51,16 @@ def signup():
         hashed_pw = generate_password_hash(password)
         users.insert_one({'username': username, 'password': hashed_pw})
 
-        print("All users in the DB:")
-        for user in users.find():
-            print(user)
-
         return redirect(url_for('login'))
 
     return render_template('signup.html')
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route('/predict', methods=['POST'])
+@application.route('/predict', methods=['POST'])
 def predict():
     if 'username' not in session:
         return redirect(url_for('login'))
@@ -85,10 +81,7 @@ def predict():
         return render_template('index.html',
                                prediction_text=f"Error: {str(e)}",
                                username=session['username'])
-
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=80)
-
-
-
+@application.route('/health')
+def health_check():
+    return 'OK', 200
 
